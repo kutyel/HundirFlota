@@ -10,3 +10,9 @@ F:\Proyecto - HundirFlota\Hundir la fota\Hundir la fota\bin\Debug\Hundir la fota
 F:\Proyecto - HundirFlota\Hundir la fota\Hundir la fota\obj\Debug\Hundir la flota.csprojResolveAssemblyReference.cache
 F:\Proyecto - HundirFlota\Hundir la fota\Hundir la fota\obj\Debug\Hundir la fota.exe
 F:\Proyecto - HundirFlota\Hundir la fota\Hundir la fota\obj\Debug\Hundir la fota.pdb
+C:\Users\Flavio\Documents\GitHub\HundirFlota\Hundir la fota\Hundir la fota\bin\Debug\Hundir la fota.exe.config
+C:\Users\Flavio\Documents\GitHub\HundirFlota\Hundir la fota\Hundir la fota\bin\Debug\Hundir la fota.exe
+C:\Users\Flavio\Documents\GitHub\HundirFlota\Hundir la fota\Hundir la fota\bin\Debug\Hundir la fota.pdb
+C:\Users\Flavio\Documents\GitHub\HundirFlota\Hundir la fota\Hundir la fota\obj\Debug\Hundir la flota.csprojResolveAssemblyReference.cache
+C:\Users\Flavio\Documents\GitHub\HundirFlota\Hundir la fota\Hundir la fota\obj\Debug\Hundir la fota.exe
+C:\Users\Flavio\Documents\GitHub\HundirFlota\Hundir la fota\Hundir la fota\obj\Debug\Hundir la fota.pdb

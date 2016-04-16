@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Hundir_la_fota
 {
+    enum Barcos
+    {
+        Submarino,
+        Destructor,
+        Acorazado,
+        Portaaviones
+    }
+
     class Barco
     {
         public Barcos Tipo;
@@ -13,5 +21,9 @@ namespace Hundir_la_fota
         public int PosicionX;
         public int PosicionY;
         public bool Hundido;
+
+        public Barco(Barcos tipo) {
+            this.Tipo = tipo;
+        }
     }
 }

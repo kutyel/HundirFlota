@@ -8,34 +8,27 @@ namespace Hundir_la_fota
 {
     class Tablero
     {
-        Configurar config = new Configurar();
-        Barco barco = new Barco();
         public int Tamx;
         public int Tamy;
-        public Configurar numSubmarinos { get; set; }
-        public Configurar numAcorazados { get; set; }
-        public Configurar numPortaaviones { get; set; }
-        public Configurar numDestructores { get; set; }
-        public Configurar Descubierto { get; set; }
-        private int[,] Matriz;
+
+        private int[,] _Matriz;
+        private List<Barco> _Barcos;
+        private Configurar _Config;
 
         public Tablero(int tamx, int tamy)
         {
-            Tamx = tamx;
-            Tamy = tamy;
-            Matriz = new int[tamx, tamy];
+            this.Tamx = tamx;
+            this.Tamy = tamy;
+            this._Matriz = new int[tamx, tamy];
+            this._Config = new Configurar();
+            this._Barcos = new List<Barco>();
         }
 
         public Tablero()
         {
-            this.Tamx = 10;
-            this.Tamy = 10;
-            config.numSubmarinos = 4;
-            config.numAcorazados = 2;
-            config.numPortaaviones = 1;
-            config.numDestructores = 0;
-            config.Descubierto = false;
-            Matriz = new int[10, 10];
+            this._Matriz = new int[10, 10];
+            this._Config = new Configurar();
+            this._Barcos = new List<Barco>();
         }
 
         public void DibujarTablero()
@@ -91,18 +84,103 @@ namespace Hundir_la_fota
                 }
             }
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(4,2);
+            Console.SetCursorPosition(4,2);  
 
+            // Crear lista de barcos según la configuración
+
+            for (int i = 0; i < _Config.numAcorazados; i++)
+            {
+                _Barcos.Add(new Barco(Barcos.Acorazado));
+            }
+
+            for (int i = 0; i < _Config.numDestructores; i++)
+            {
+                _Barcos.Add(new Barco(Barcos.Destructor));
+            }
+
+            for (int i = 0; i < _Config.numPortaaviones; i++)
+            {
+                _Barcos.Add(new Barco(Barcos.Portaaviones));
+            }
             
+            for (int i = 0; i < _Config.numSubmarinos; i++)
+            {
+                _Barcos.Add(new Barco(Barcos.Submarino));
+            }
+
+            // Repartir los barcos de manera aleatoria
+            ColocarBarcos(_Barcos);
         }
 
-        public void ColocarBarcos(Barco barco)
+        public bool EstaVacioHueco(Barco barco)
         {
-            barco.Hundido = false;
+            if (barco.OrientacionBarco == Direcciones.Horizontal)
+            {
+                for (int posX = barco.PosicionX; posX < (int)barco.Tipo; posX++)
+                {
+                    if (this._Matriz[posX, barco.PosicionY] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                for (int posY = barco.PosicionY; posY < (int)barco.Tipo; posY++)
+                {
+                    if (this._Matriz[barco.PosicionX, posY] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void GenerarPosicionAleatoria(Barco barco)
+        {
             Random aleatorio = new Random();
-            barco.OrientacionBarco = (Direcciones)aleatorio.Next(1, 3);
-            barco.PosicionX = aleatorio.Next(0, Tamx);
-            barco.PosicionY = aleatorio.Next(0, Tamy);
+            barco.Hundido = false;
+            barco.OrientacionBarco = (Direcciones)aleatorio.Next(2);
+            barco.PosicionX = aleatorio.Next(Tamx);
+            barco.PosicionY = aleatorio.Next(Tamy);
+        }
+
+        public void PosicionarBarco(Barco barco)
+        {
+            if (barco.OrientacionBarco == Direcciones.Horizontal)
+            {
+                for (int posX = barco.PosicionX; posX < (int)barco.Tipo; posX++)
+                {
+                    this._Matriz[posX, barco.PosicionY] = (int)barco.Tipo;
+                }
+            }
+            else
+            {
+                for (int posY = barco.PosicionY; posY < (int)barco.Tipo; posY++)
+                {
+                    this._Matriz[barco.PosicionX, posY] = (int)barco.Tipo;
+                }
+            }
+        }
+
+        public void ColocarBarcos(List<Barco> barcos)
+        {
+            foreach (Barco barco in barcos) {
+
+                GenerarPosicionAleatoria(barco);
+
+                if (EstaVacioHueco(barco))
+                {
+                    PosicionarBarco(barco);
+                }
+                else
+                {
+                    GenerarPosicionAleatoria(barco);
+
+                    PosicionarBarco(barco);
+                }
+            }
         }
     }
 }

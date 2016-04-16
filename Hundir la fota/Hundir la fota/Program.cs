@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace Hundir_la_fota
 {
-    enum Barcos
-    {
-        Submarino,
-        Destructor,
-        Acorazado,
-        Portaaviones
-    }
-
     enum Direcciones
     {
         Horizontal,
@@ -42,8 +34,7 @@ namespace Hundir_la_fota
 
                     case ConsoleKey.NumPad2:
                     case ConsoleKey.D2:
-                        Tablero obj = new Tablero();
-                        Barco barco = new Barco();
+                        Tablero obj = new Tablero(10, 10);
                         obj.DibujarTablero();
                         MovimientoTablero(obj);
                         break;
