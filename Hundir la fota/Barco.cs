@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hundir_la_fota
+﻿namespace Hundir_la_fota
 {
     enum Barcos
     {
@@ -22,7 +16,8 @@ namespace Hundir_la_fota
         public int PosicionY;
         public bool Hundido;
 
-        public Barco(Barcos tipo) {
+        public Barco(Barcos tipo)
+        {
             this.Tipo = tipo;
         }
     }

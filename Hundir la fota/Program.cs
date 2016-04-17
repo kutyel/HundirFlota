@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hundir_la_fota
 {
-    enum Barcos
-    {
-        Submarino,
-        Destructor,
-        Acorazado,
-        Portaaviones
-    }
-
     enum Direcciones
     {
         Horizontal,
@@ -28,10 +16,10 @@ namespace Hundir_la_fota
             do
             {
                 Console.WriteLine("Escoje la opción que deseas ejecutar:");
-                Console.WriteLine("1- Salir");
-                Console.WriteLine("2- Jugar");
-                Console.WriteLine("3- Configurar");
-                Console.WriteLine("4- Instrucciones");
+                Console.WriteLine("1) Salir");
+                Console.WriteLine("2) Jugar");
+                Console.WriteLine("3) Configurar");
+                Console.WriteLine("4) Instrucciones");
                 Menu = Console.ReadKey(true);
                 switch (Menu.Key)
                 {
@@ -42,8 +30,7 @@ namespace Hundir_la_fota
 
                     case ConsoleKey.NumPad2:
                     case ConsoleKey.D2:
-                        Tablero obj = new Tablero();
-                        Barco barco = new Barco();
+                        Tablero obj = new Tablero(10, 10);
                         obj.DibujarTablero();
                         MovimientoTablero(obj);
                         break;
@@ -120,11 +107,11 @@ namespace Hundir_la_fota
                         return false;
                     else return true;
                 case 3:
-                    if (Console.CursorLeft == (tablero.Tamx*2+2))
+                    if (Console.CursorLeft == (tablero.Tamx * 2 + 2))
                         return false;
                     else return true;
                 case 4:
-                    if (Console.CursorTop == tablero.Tamy*2)
+                    if (Console.CursorTop == tablero.Tamy * 2)
                         return false;
                     else return true;
                 default:

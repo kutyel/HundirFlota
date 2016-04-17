@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hundir_la_fota
 {
@@ -10,9 +6,8 @@ namespace Hundir_la_fota
     {
         public int Tamx;
         public int Tamy;
-
         private int[,] _Matriz;
-        private List<Barco> _Barcos;
+        private Barco[] _Barcos;
         private Configurar _Config;
 
         public Tablero(int tamx, int tamy)
@@ -21,14 +16,12 @@ namespace Hundir_la_fota
             this.Tamy = tamy;
             this._Matriz = new int[tamx, tamy];
             this._Config = new Configurar();
-            this._Barcos = new List<Barco>();
+            this._Barcos = new Barco[] { };
         }
 
-        public Tablero()
+        private bool EsPar(int numero)
         {
-            this._Matriz = new int[10, 10];
-            this._Config = new Configurar();
-            this._Barcos = new List<Barco>();
+            return numero % 2 == 0;
         }
 
         public void DibujarTablero()
@@ -42,28 +35,28 @@ namespace Hundir_la_fota
             {
                 for (int j = 0; j < Tamy + (Tamy + 1); j++)
                 {
-                    if (i % 2 == 0 && j != 0)
+                    if (EsPar(i) && j != 0)
                     {
                         Console.SetCursorPosition(i + 3, j + 1);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Blue;
                         Console.Write("|");
                     }
-                    if (i % 2 == 1)
+                    if (!EsPar(i))
                     {
                         Console.SetCursorPosition(i + 3, j + 1);
                         Console.BackgroundColor = ConsoleColor.Blue;
                         Console.Write(" ");
                     }
 
-                    if (j % 2 == 0)
+                    if (EsPar(j))
                     {
                         Console.SetCursorPosition(i + 3, j + 1);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Blue;
                         Console.Write("-");
                     }
-                    if (j == 0 && i != 0 && i % 2 == 1)
+                    if (j == 0 && i != 0 && !EsPar(i))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.SetCursorPosition(i + 3, j);
@@ -71,44 +64,43 @@ namespace Hundir_la_fota
                         Console.Write("{0}", (char)letraA);
                         letraA++;
                     }
-                    if (i == 0 && j != 0 && j % 2 == 1)
+                    if (i == 0 && j != 0 && !EsPar(j))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.SetCursorPosition(i, j + 1);
                         Console.BackgroundColor = ConsoleColor.Black;
-                        if (num >= 10)
-                            Console.Write("{0}", num);
-                        else Console.Write(" {0}", num);
+                        Console.Write("{0}", num);
                         num++;
                     }
                 }
             }
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(4,2);  
+            Console.SetCursorPosition(4, 2);
 
             // Crear lista de barcos según la configuración
 
             for (int i = 0; i < _Config.numAcorazados; i++)
             {
-                _Barcos.Add(new Barco(Barcos.Acorazado));
+                _Barcos[_Barcos.Length] = new Barco(Barcos.Acorazado);
             }
 
             for (int i = 0; i < _Config.numDestructores; i++)
             {
-                _Barcos.Add(new Barco(Barcos.Destructor));
+                _Barcos[_Barcos.Length] = new Barco(Barcos.Destructor);
             }
 
             for (int i = 0; i < _Config.numPortaaviones; i++)
             {
-                _Barcos.Add(new Barco(Barcos.Portaaviones));
+                _Barcos[_Barcos.Length] = new Barco(Barcos.Portaaviones);
             }
-            
+
             for (int i = 0; i < _Config.numSubmarinos; i++)
             {
-                _Barcos.Add(new Barco(Barcos.Submarino));
+                _Barcos[_Barcos.Length] = new Barco(Barcos.Submarino);
             }
 
             // Repartir los barcos de manera aleatoria
+
             ColocarBarcos(_Barcos);
         }
 
@@ -164,22 +156,19 @@ namespace Hundir_la_fota
             }
         }
 
-        public void ColocarBarcos(List<Barco> barcos)
+        public void ColocarBarcos(Barco[] barcos)
         {
-            foreach (Barco barco in barcos) {
-
-                GenerarPosicionAleatoria(barco);
-
-                if (EstaVacioHueco(barco))
-                {
-                    PosicionarBarco(barco);
-                }
-                else
+            foreach (Barco barco in barcos)
+            {
+                do
                 {
                     GenerarPosicionAleatoria(barco);
 
-                    PosicionarBarco(barco);
-                }
+                    if (EstaVacioHueco(barco))
+                    {
+                        PosicionarBarco(barco);
+                    }
+                } while (!EstaVacioHueco(barco));
             }
         }
     }
